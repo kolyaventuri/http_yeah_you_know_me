@@ -5,6 +5,5 @@ class BodyBuilder
     response.concat(headers)
     response.push('</pre>')
     response.join('\r\n')
-    response
   end
 end

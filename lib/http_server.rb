@@ -14,18 +14,25 @@ class HTTPServer
   def start
     loop do
       Thread.new(@server.accept) do |client|
-        builder = ResponseBuilder.new
-        body_builder = BodyBuilder.new
-        request_headers = request_lines client
-        output = "Hello, World! (#{@times += 1})"
-        body = body_builder.body(output, request_headers)
-        headers = builder.headers(body)
+        body = response_body("Hello, World! (#{@times += 1})", client)
+        headers = response_headers(body)
 
         client.puts headers
         client.puts body
         client.close
       end
     end
+  end
+
+  def response_body(output, client)
+    request_headers = request_lines client
+    body_builder = BodyBuilder.new
+    body_builder.body(output, request_headers)
+  end
+
+  def response_headers(body)
+    builder = ResponseBuilder.new
+    builder.headers(body)
   end
 
   def request_lines(client)
