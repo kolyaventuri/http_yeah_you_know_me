@@ -1,25 +1,26 @@
 require 'socket'
 require_relative 'response_builder'
 require_relative 'body_builder'
+require_relative 'router'
 
 # HTTPServer provider
 class HTTPServer
-  attr_reader :server
+  attr_reader :server, :router
 
   def initialize(port = 9292)
     @server = TCPServer.new port
-    @times = 0
+    @router = Router.new
   end
 
   def start
     loop do
       Thread.new(@server.accept) do |client|
-        body = response_body("Hello, World! (#{@times += 1})", client)
-        headers = response_headers(body)
-        determine_endpoint client
-        client.puts headers
-        client.puts body
-        client.close
+        endpoint = determine_endpoint client
+        @router.execute(
+          method: endpoint.method,
+          endpoint: endpoint.endpoint,
+          client: client
+        )
       end
     end
   end
