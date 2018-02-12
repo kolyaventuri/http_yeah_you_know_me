@@ -1,5 +1,4 @@
 require_relative 'test_helper.rb'
-require 'pry'
 
 require './lib/response_builder.rb'
 

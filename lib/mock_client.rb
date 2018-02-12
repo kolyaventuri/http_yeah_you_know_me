@@ -12,7 +12,7 @@ class MockClient
 
   def headers
     [
-      'GET / HTTP/1.1',
+      'GET /example HTTP/1.1',
       'Host: localhost:9292',
       'Connection: keep-alive',
       'Cache-Control: no-cache',
