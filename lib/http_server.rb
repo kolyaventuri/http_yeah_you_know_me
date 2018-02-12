@@ -12,14 +12,17 @@ class HTTPServer
   end
 
   def start
-    client = @server.accept
-    output = "<http><body><p>Hello, World! #{@times}</p></body></http>"
-    headers = @builder.headers(output)
-    client.gets
+    loop do
+      Thread.new(@server.accept) do |client|
+        output = "Hello, World! (#{@times += 1})"
+        headers = @builder.headers(output)
+        client.gets
 
-    client.puts headers
-    client.puts output
-    client.close
+        client.puts headers
+        client.puts output
+        client.close
+      end
+    end
   end
 
   def close
