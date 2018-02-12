@@ -46,6 +46,7 @@ class Router
 
     throw Exception.new unless set?(method.upcase, path)
     @endpoints[method]['*'].call unless @endpoints[method]['*'].nil?
+    puts "\e[32m#{method}\e[0m #{path}"
     @endpoints[method][path].call req, res
   end
 end

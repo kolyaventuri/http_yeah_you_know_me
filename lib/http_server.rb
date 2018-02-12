@@ -14,6 +14,7 @@ class HTTPServer
 
   def start
     loop do
+      break if @server.closed?
       Thread.new(@server.accept) do |client|
         # endpoint = determine_endpoint client
         @router.execute(client)
