@@ -10,6 +10,11 @@ class RunnerTest < Minitest::Test
 
   def test_does_run_server
     runner = Runner.new
+    router = runner.router
+    times = 0
+    router.get '/hello', (proc do |_req, res|
+      res.send "Hello, world! (#{times += 1})"
+    end)
     runner.start
   end
 end

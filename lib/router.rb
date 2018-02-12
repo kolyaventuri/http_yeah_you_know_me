@@ -1,3 +1,5 @@
+require_relative 'client_parser'
+
 # Defines routers
 class Router
   def initialize
@@ -35,8 +37,14 @@ class Router
     false
   end
 
-  def execute(method, endpoint, args)
-    throw Exception.new unless set?(method.upcase, endpoint)
-    @endpoints[method][endpoint].call args
+  def execute(client)
+    client_info = ClientParser.new(client).data
+    req = client_info[:req]
+    res = client_info[:res]
+    method = req.method
+    path = req.path
+
+    throw Exception.new unless set?(method.upcase, path)
+    @endpoints[method][path].call req, res
   end
 end
