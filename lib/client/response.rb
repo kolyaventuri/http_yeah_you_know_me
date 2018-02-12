@@ -11,8 +11,9 @@ class Response
   end
 
   def send(data)
-    @client.puts @builder.headers(data)
-    @client.puts response_body(data)
+    body = response_body(data)
+    @client.puts @builder.headers(body)
+    @client.puts body
     @client.close
   end
 
