@@ -8,14 +8,14 @@ class HTTPServer
   def initialize(port = 9292)
     @server = TCPServer.new port
     @times = 0
-    @builder = ResponseBuilder.new
   end
 
   def start
     loop do
       Thread.new(@server.accept) do |client|
         output = "Hello, World! (#{@times += 1})"
-        headers = @builder.headers(output)
+        builder = ResponseBuilder.new
+        headers = builder.headers(output)
         client.gets
 
         client.puts headers
