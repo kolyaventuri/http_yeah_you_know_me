@@ -15,11 +15,13 @@ class Router
   end
 
   def get_set?(endpoint)
+    return false if @endpoints['GET'].nil?
     return true if @endpoints['GET'][endpoint]
     false
   end
 
   def post_set?(endpoint)
+    return false if @endpoints['POST'].nil?
     return true if @endpoints['POST'][endpoint]
     false
   end
@@ -29,9 +31,8 @@ class Router
       return true if get_set?(endpoint)
     elsif method == 'POST'
       return true if post_set?(endpoint)
-    else
-      false
     end
+    false
   end
 
   def execute(method, endpoint, args)
