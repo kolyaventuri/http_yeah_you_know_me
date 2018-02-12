@@ -14,7 +14,7 @@ class Request
       @headers[name] = split_header.join(':').strip
     end
 
-    endpoint_data = determine_endpoint request_headers[0]
+    endpoint_data = determine_endpoint @raw_headers[0]
     @method = endpoint_data[:method]
     @path = endpoint_data[:endpoint]
     @raw_headers[0] = "#{@method} #{@path} HTTP/1.1"
