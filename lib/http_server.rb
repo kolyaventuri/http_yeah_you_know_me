@@ -25,4 +25,8 @@ class HTTPServer
   def close
     @server.close
   end
+
+  def open?
+    !@server.closed?
+  end
 end
