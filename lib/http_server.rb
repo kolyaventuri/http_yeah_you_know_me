@@ -1,5 +1,6 @@
 require 'socket'
 require_relative 'response_builder'
+require_relative 'body_builder'
 
 # HTTPServer provider
 class HTTPServer
@@ -13,16 +14,26 @@ class HTTPServer
   def start
     loop do
       Thread.new(@server.accept) do |client|
-        output = "Hello, World! (#{@times += 1})"
         builder = ResponseBuilder.new
-        headers = builder.headers(output)
-        client.gets
+        body_builder = BodyBuilder.new
+        request_headers = request_lines client
+        output = "Hello, World! (#{@times += 1})"
+        body = body_builder.body(output, request_headers)
+        headers = builder.headers(body)
 
         client.puts headers
-        client.puts output
+        client.puts body
         client.close
       end
     end
+  end
+
+  def request_lines(client)
+    request_lines = []
+    while (line = client.gets) and !line.chomp.empty?
+      request_lines << line.chomp
+    end
+    request_lines
   end
 
   def close

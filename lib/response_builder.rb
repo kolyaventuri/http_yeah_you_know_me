@@ -3,10 +3,10 @@ class ResponseBuilder
   def initialize
     @headers = {
       status: 'http/1.1 200 OK',
-      'date' => nil,
-      'server' => 'ruby',
-      'content-type' => 'text/html; charset=iso-8859-1',
-      'content-length' => nil
+      'Date' => nil,
+      'Server' => 'ruby',
+      'Content-Type' => 'text/html; charset=iso-8859-1',
+      'Content-Length' => nil
     }
   end
 
@@ -21,8 +21,8 @@ class ResponseBuilder
   end
 
   def headers(output)
-    set_header('content-length', output.length.to_s)
-    @headers['date'] = Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')
+    set_header('Content-Length', output.length.to_s)
+    @headers['Date'] = Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')
     headers_array.join('\r\n')
   end
 
