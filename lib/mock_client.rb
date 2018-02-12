@@ -1,13 +1,22 @@
 # Defines headers for client unit testing
 class MockClient
-  attr_reader :read_out
+  attr_reader :read_out, :output
 
   def initialize
     @read_out = headers
+    @output = ""
   end
 
   def gets
     @read_out.shift
+  end
+
+  def puts(data)
+    @output += data
+  end
+
+  def close
+    @output
   end
 
   def headers
