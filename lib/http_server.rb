@@ -37,7 +37,7 @@ class HTTPServer
 
   def request_lines(client)
     request_lines = []
-    while (line = client.gets) and !line.chomp.empty?
+    while (line = client.gets) && !line.chomp.empty?
       request_lines << line.chomp
     end
     request_lines

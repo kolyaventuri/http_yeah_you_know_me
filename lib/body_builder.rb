@@ -4,6 +4,6 @@ class BodyBuilder
     response = [content, '<pre>']
     response.concat(headers)
     response.push('</pre>')
-    response.join('\r\n')
+    response.join("\n")
   end
 end
