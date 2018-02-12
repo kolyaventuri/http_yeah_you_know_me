@@ -8,5 +8,6 @@ class HTTPServerTest < Minitest::Test
 
   def test_does_create_server
     assert_instance_of TCPServer, SERVER.server
+    SERVER.close
   end
 end
