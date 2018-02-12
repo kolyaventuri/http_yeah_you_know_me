@@ -45,6 +45,7 @@ class Router
     path = req.path
 
     throw Exception.new unless set?(method.upcase, path)
+    @endpoints[method]['*'].call unless @endpoints[method]['*'].nil?
     @endpoints[method][path].call req, res
   end
 end

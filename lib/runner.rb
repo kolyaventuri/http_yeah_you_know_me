@@ -2,7 +2,7 @@ require_relative 'http_server'
 
 # Server runner
 class Runner
-  attr_reader :router
+  attr_reader :router, :server
 
   def initialize
     @server = HTTPServer.new
