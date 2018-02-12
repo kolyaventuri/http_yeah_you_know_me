@@ -25,4 +25,7 @@ class Response
     @builder.set_header name, value
   end
 
+  def status(code)
+    @builder.status code
+  end
 end
