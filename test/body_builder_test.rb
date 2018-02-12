@@ -19,7 +19,7 @@ class BodyBuilderTest < Minitest::Test
       'Connection: keep-alive',
       'Cache-Control: no-cache',
       '</pre>'
-    ].join('\n')
+    ].join("\n")
 
     body = builder.body('1234', request_headers)
     assert_equal expected, body
