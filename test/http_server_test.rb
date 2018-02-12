@@ -16,7 +16,9 @@ class HTTPServerTest < Minitest::Test
     expected_post = { method: 'POST', endpoint: '/test' }
     expected_nil = { method: nil, endpoint: nil }
     assert_equal expected_get, SERVER.determine_endpoint('GET /test HTTP/1.1')
+    assert_equal expected_get, SERVER.get_endpoint_info('GET /test HTTP/1.1')
     assert_equal expected_post, SERVER.determine_endpoint('POST /test HTTP/1.1')
+    assert_equal expected_post, SERVER.post_endpoint_info('POST /test HTTP/1.1')
     assert_equal expected_nil, SERVER.determine_endpoint('DELETE /test HTTP/1.1')
   end
 end

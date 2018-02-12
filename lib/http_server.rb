@@ -25,19 +25,24 @@ class HTTPServer
   end
 
   def determine_endpoint(endpoint)
-    result = { method: nil, endpoint: nil }
     if endpoint.slice(0, 3) == 'GET'
-      result[:method] = 'GET'
-      endpoint.slice!(0, 4)
-      endpoint.slice!(endpoint.length - 9, endpoint.length - 1)
-      result[:endpoint] = endpoint
+      return get_endpoint_info endpoint
     elsif endpoint.slice(0, 4) == 'POST'
-      result[:method] = 'POST'
-      endpoint.slice!(0, 5)
-      endpoint.slice!(endpoint.length - 9, endpoint.length - 1)
-      result[:endpoint] = endpoint
+      return post_endpoint_info endpoint
     end
-    result
+    { method: nil, endpoint: nil }
+  end
+
+  def get_endpoint_info(endpoint)
+    endpoint.slice!(0, 4)
+    endpoint.slice!(endpoint.length - 9, endpoint.length - 1)
+    { method: 'GET', endpoint: endpoint }
+  end
+
+  def post_endpoint_info(endpoint)
+    endpoint.slice!(0, 5)
+    endpoint.slice!(endpoint.length - 9, endpoint.length - 1)
+    { method: 'POST', endpoint: endpoint }
   end
 
   def response_body(output, client)
