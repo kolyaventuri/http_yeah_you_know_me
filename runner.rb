@@ -34,7 +34,12 @@ end)
 router.get '/word_search', (proc do |req, res|
   word = req.params['word']
   return res.send 'No word supplied' if word.nil?
-  res.send word
+  options = dictionary.suggest word
+  if options.include? word
+    res.send "#{word} is a known word"
+  else
+    res.send "#{word} is not a known word"
+  end
 end)
 
 runner.start
