@@ -12,4 +12,8 @@ class Runner
   def start
     @server.start
   end
+
+  def stop
+    @server.close
+  end
 end

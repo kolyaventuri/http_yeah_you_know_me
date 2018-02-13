@@ -6,6 +6,7 @@ class RunnerTest < Minitest::Test
   def test_does_open_router
     runner = Runner.new
     assert_instance_of Router, runner.router
+    runner.stop
   end
 
   def test_does_run_server
@@ -33,6 +34,12 @@ class RunnerTest < Minitest::Test
     router.get '/shutdown', (proc do |_req, res|
       res.send "Total Requests: #{request_count}"
       runner.server.close
+    end)
+
+    router.get '/word_search', (proc do |req, res|
+      word = req.params['word']
+      return res.send 'No word supplied' if word.nil?
+      res.send word
     end)
 
     runner.start
