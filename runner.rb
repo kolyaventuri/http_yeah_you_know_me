@@ -1,4 +1,9 @@
 require './lib/runner'
+require './lib/dictionary/complete_me'
+
+dictionary = CompleteMe.new
+words = File.read('/usr/share/dict/words')
+dictionary.populate(words)
 
 runner = Runner.new
 router = runner.router

@@ -43,16 +43,6 @@ class CompleteMe
 
   def suggest(pattern)
     list = get_suggestions(pattern)
-    weights = get_weights(pattern)
-
-    sorted_weight = weights.sort_by { |hash| hash[:weight] }
-
-    until sorted_weight.length.zero?
-      to_add = sorted_weight.shift[:word]
-      list.delete(to_add) if list.include?(to_add)
-
-      list.unshift(to_add)
-    end
 
     list
   end
