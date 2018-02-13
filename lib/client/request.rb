@@ -58,12 +58,12 @@ class Request
   def get_endpoint_info(endpoint)
     endpoint.slice!(0, 4)
     endpoint.slice!(endpoint.length - 9, endpoint.length - 1)
-    { method: 'GET', endpoint: endpoint }
+    { method: :GET, endpoint: endpoint }
   end
 
   def post_endpoint_info(endpoint)
     endpoint.slice!(0, 5)
     endpoint.slice!(endpoint.length - 9, endpoint.length - 1)
-    { method: 'POST', endpoint: endpoint }
+    { method: :POST, endpoint: endpoint }
   end
 end

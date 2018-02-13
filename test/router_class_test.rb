@@ -1,7 +1,7 @@
 require_relative 'test_helper.rb'
 
 require './lib/routers/_router.rb'
-require './lib/mock_client'
+require './test/fixtures/mock_client'
 require './lib/client/request'
 
 class RouterClassTest < Minitest::Test

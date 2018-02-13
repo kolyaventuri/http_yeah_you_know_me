@@ -1,7 +1,7 @@
 require_relative '../client_parser'
 
 # Defines generic router
-class Router
+class GenericRouter
   attr_reader :method
 
   def initialize(method)
@@ -30,15 +30,14 @@ class Router
     client_info = ClientParser.new(client).data
     method = client_info[:req].method
     path = client_info[:req].path
-
-    is_set = set?(path)
-    color = '32'
-    color = '31' unless is_set
+    endpoint = client_info[:req].endpoint
+    is_set = set?(endpoint)
+    color = is_set ? '32' : '31'
 
     puts "\e[#{color}m#{method}\e[0m #{path}"
 
     throw Exception.new unless is_set
     call_catch_all
-    call_path path, client_info
+    call_path endpoint, client_info
   end
 end

@@ -1,8 +1,32 @@
 require_relative 'client_parser'
+require_relative 'routers/_router'
 
 # Defines routers
-class Router
+class Router < GenericRouter
   def initialize
-    @endpoints = {}
+    @routers = {}
+    @routers[:GET] = GenericRouter.new :GET
+    @routers[:POST] = GenericRouter.new :POST
+  end
+
+  def get(endpoint, &handler)
+    router = @routers[:GET]
+    router.set endpoint, handler
+  end
+
+  def post(endpoint, &handler)
+    router = @routers[:POST]
+    router.set endpoint, handler
+  end
+
+  def set?(method, endpoint)
+    return false if @routers[method].nil?
+    @routers[method].set? endpoint
+  end
+
+  def execute(client)
+    router = @routers[client.method]
+    throw Exception.new if router.nil?
+    router.execute client
   end
 end
