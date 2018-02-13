@@ -1,5 +1,5 @@
 require_relative 'client_parser'
-require_relative 'routers/_router'
+require_relative 'routers/generic_router'
 
 # Defines routers
 class Router < GenericRouter

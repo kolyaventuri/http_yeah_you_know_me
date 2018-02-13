@@ -1,6 +1,6 @@
 require_relative 'test_helper.rb'
 
-require './lib/routers/_router.rb'
+require './lib/routers/generic_router.rb'
 require './test/fixtures/mock_client'
 require './lib/client/request'
 
