@@ -6,12 +6,11 @@ class MockClient
   def initialize(method = :GET, query_string = '')
     @method = method
     @query_string = query_string
-    @read_out = nil
+    @read_out = headers
     @output = ''
   end
 
   def gets
-    @read_out = headers if @read_out.nil?
     @read_out.shift
   end
 

@@ -21,7 +21,6 @@ class Request
       name = split_header.shift
       @headers[name] = split_header.join(':').strip
     end
-
     endpoint_data = determine_endpoint @raw_headers[0]
     @method = endpoint_data[:method]
     @path = endpoint_data[:endpoint]
