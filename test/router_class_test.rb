@@ -6,18 +6,18 @@ require './lib/client/request'
 
 class RouterClassTest < Minitest::Test
   def setup
-    @router = Router.new(:GET)
+    @router = GenericRouter.new(:GET)
   end
 
   def test_does_create_router
-    assert_instance_of Router, @router
+    assert_instance_of GenericRouter, @router
     assert_equal :GET, @router.method
   end
 
   def test_does_accept_different_methods
-    router = Router.new(:POST)
+    router = GenericRouter.new(:POST)
 
-    assert_instance_of Router, router
+    assert_instance_of GenericRouter, router
     assert_equal :POST, router.method
   end
 
