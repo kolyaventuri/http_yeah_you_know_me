@@ -37,6 +37,6 @@ class ParameterParserTest < Minitest::Test
     parameters = parser.parse path
     expected = { 'foo' => 'bar', 'bar' => 'foo' }
 
-    assert_equal expected, parameters.parameters
+    assert_equal expected, parameters[:parameters]
   end
 end

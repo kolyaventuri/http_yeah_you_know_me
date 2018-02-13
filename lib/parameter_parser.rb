@@ -13,10 +13,13 @@ class ParameterParser
 
   def split_parameters(parameters)
     return nil if parameters.nil?
-    parts = parameters.split '='
+    parts = parameters.split '&'
     params = {}
 
-    params[parts[0]] = parts[1]
+    parts.each do |part|
+      param = part.split '='
+      params[param[0]] = param[1]
+    end
 
     params
   end
