@@ -41,15 +41,15 @@ class Router
     client_info = ClientParser.new(client).data
     method = client_info[:req].method
     path = client_info[:req].path
+    endpoint = client_info[:req].endpoint
 
-    is_set = set?(method.upcase, path)
-    color = '32'
-    color = '31' unless is_set
+    is_set = set?(method.upcase, endpoint)
+    color = is_set ? '32' : '31'
 
     puts "\e[#{color}m#{method}\e[0m #{path}"
 
     throw Exception.new unless is_set
     @endpoints[method]['*'].call unless @endpoints[method]['*'].nil?
-    @endpoints[method][path].call client_info[:req], client_info[:res]
+    @endpoints[method][endpoint].call client_info[:req], client_info[:res]
   end
 end
