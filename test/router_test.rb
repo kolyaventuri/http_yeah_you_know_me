@@ -25,6 +25,25 @@ class RouterTest < Minitest::Test
     assert_equal '/example', resulting_request.path
   end
 
+  def test_router_can_take_post_endpoints
+    router = Router.new
+    get_route = router.post '/example' do |req, _res|
+      req
+    end
+    assert_instance_of Proc, get_route
+
+    assert_equal false, router.set?(:GET, '/example')
+    assert_equal true, router.set?(:POST, '/example')
+
+    client = MockClient.new :POST
+
+    resulting_request = router.execute(client)
+
+    assert_instance_of Request, resulting_request
+    assert_equal '/example', resulting_request.path
+  end
+
+
   def test_router_can_take_get_parameters
     router = Router.new
     router.get '/example' do |req, _res|

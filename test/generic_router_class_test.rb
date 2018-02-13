@@ -22,9 +22,9 @@ class RouterClassTest < Minitest::Test
   end
 
   def test_does_take_endpoints
-    route = @router.set '/example', (proc do |req, _res|
+    route = @router.set '/example' do |req, _res|
       req
-    end)
+    end
 
     assert_instance_of Proc, route
 
@@ -32,9 +32,9 @@ class RouterClassTest < Minitest::Test
   end
 
   def test_can_execute_route
-    @router.set '/example', (proc do |req, _res|
+    @router.set '/example' do |req, _res|
       req
-    end)
+    end
     client = MockClient.new
     router_result = @router.execute(client)
 

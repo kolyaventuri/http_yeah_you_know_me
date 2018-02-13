@@ -9,7 +9,7 @@ class GenericRouter
     @endpoints = {}
   end
 
-  def set(endpoint, handler)
+  def set(endpoint, &handler)
     @endpoints[endpoint] = handler
   end
 

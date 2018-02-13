@@ -20,7 +20,7 @@ class RequestTest < Minitest::Test
     assert_equal '/example', @request.path
   end
 
-  def can_determine_get_post_nil
+  def test_can_determine_get_post_nil
     get = { method:  :GET, endpoint: '/example' }
     post = { method:  :POST, endpoint: '/example' }
     bad = { method: nil, endpoint: nil }
@@ -30,7 +30,7 @@ class RequestTest < Minitest::Test
     assert_equal bad, @request.determine_endpoint('DELETE /example HTTP/1.1')
   end
 
-  def can_get_endpoint
+  def test_can_get_endpoint
     get = { method:  :GET, endpoint: '/example' }
     post = { method:  :POST, endpoint: '/example' }
     assert_equal get, @request.get_endpoint_info('GET /example HTTP/1.1')

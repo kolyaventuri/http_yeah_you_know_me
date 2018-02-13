@@ -11,12 +11,12 @@ class Router < GenericRouter
 
   def get(endpoint, &handler)
     router = @routers[:GET]
-    router.set endpoint, handler
+    router.set endpoint, &handler
   end
 
   def post(endpoint, &handler)
     router = @routers[:POST]
-    router.set endpoint, handler
+    router.set endpoint, &handler
   end
 
   def set?(method, endpoint)

@@ -29,4 +29,29 @@ class ResponseTest < Minitest::Test
     expected_w_headers += @expected
     assert_equal expected_w_headers, @client.output
   end
+
+  def test_can_set_arbitrary_header
+    @response.set_header 'X-Foo', 'Bar'
+    @response.send('1,2,3,4')
+    expected_w_headers = ['HTTP/1.1 200 OK',
+                          "Date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
+                          'Server: ruby',
+                          'Content-Type: text/html; charset=iso-8859-1',
+                          'Content-Length: 382',
+                          "X-Foo: Bar\r\n\r\n"].join("\r\n")
+    expected_w_headers += @expected
+    assert_equal expected_w_headers, @client.output
+  end
+
+  def test_can_change_status
+    @response.status 404
+    @response.send('1,2,3,4')
+    expected_w_headers = ['HTTP/1.1 404 Not Found',
+                          "Date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
+                          'Server: ruby',
+                          'Content-Type: text/html; charset=iso-8859-1',
+                          "Content-Length: 382\r\n\r\n"].join("\r\n")
+    expected_w_headers += @expected
+    assert_equal expected_w_headers, @client.output
+  end
 end
