@@ -11,6 +11,5 @@ class Runner
 
   def start
     @server.start
-    #server.close
   end
 end

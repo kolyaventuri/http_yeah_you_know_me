@@ -39,14 +39,17 @@ class Router
 
   def execute(client)
     client_info = ClientParser.new(client).data
-    req = client_info[:req]
-    res = client_info[:res]
-    method = req.method
-    path = req.path
+    method = client_info[:req].method
+    path = client_info[:req].path
 
-    throw Exception.new unless set?(method.upcase, path)
+    is_set = set?(method.upcase, path)
+    color = '32'
+    color = '31' unless is_set
+
+    puts "\e[#{color}m#{method}\e[0m #{path}"
+
+    throw Exception.new unless is_set
     @endpoints[method]['*'].call unless @endpoints[method]['*'].nil?
-    puts "\e[32m#{method}\e[0m #{path}"
-    @endpoints[method][path].call req, res
+    @endpoints[method][path].call client_info[:req], client_info[:res]
   end
 end

@@ -3,7 +3,7 @@ class MockClient
   attr_reader :read_out, :output
   attr_accessor :method
 
-  def initialize(method=:GET)
+  def initialize(method = :GET)
     @method = method
     @read_out = headers
     @output = ''
