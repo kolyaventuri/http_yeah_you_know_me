@@ -1,7 +1,7 @@
 require_relative 'test_helper.rb'
 require 'pry'
 
-require './lib/mock_client'
+require_relative 'fixtures/mock_client'
 require './lib/client/request'
 require './lib/router.rb'
 

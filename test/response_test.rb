@@ -2,7 +2,7 @@ require_relative 'test_helper.rb'
 
 require './lib/client/response'
 require './lib/client/request'
-require './lib/mock_client'
+require_relative 'fixtures/mock_client'
 
 class ResponseTest < Minitest::Test
   def setup

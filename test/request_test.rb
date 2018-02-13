@@ -1,7 +1,7 @@
 require_relative 'test_helper.rb'
 
 require './lib/client/request.rb'
-require './lib/mock_client'
+require_relative 'fixtures/mock_client'
 
 class RequestTest < Minitest::Test
   def setup

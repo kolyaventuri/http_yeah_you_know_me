@@ -1,6 +1,6 @@
 require_relative 'test_helper.rb'
 
-require './lib/mock_client.rb'
+require_relative 'fixtures/mock_client'
 
 class MockClientTest < Minitest::Test
   def test_mock_client_has_headers
