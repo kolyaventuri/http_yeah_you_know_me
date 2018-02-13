@@ -11,9 +11,9 @@ class ResponseBuilder
   end
 
   def status(code)
-    response_code = response_codes code
+    response_code = response_codes[code]
     throw ArgumentError.new if response_code.nil?
-    @headers[:status] = "HTTP/1.1 #{response_code}"
+    @headers[:status] = "HTTP/1.1 #{code} #{response_code}"
   end
 
   def set_header(name, value)
