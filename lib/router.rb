@@ -25,8 +25,14 @@ class Router < GenericRouter
   end
 
   def execute(client)
-    router = @routers[client.method]
+    client_info = client_info client
+    router = @routers[client_info[:req].method]
     throw Exception.new if router.nil?
-    router.execute client
+    router.execute client_info
+  end
+
+  def client_info(client)
+    parser = ClientParser.new client
+    parser.data
   end
 end

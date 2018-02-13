@@ -26,8 +26,7 @@ class GenericRouter
     @endpoints[path].call client_info[:req], client_info[:res]
   end
 
-  def execute(client)
-    client_info = ClientParser.new(client).data
+  def execute(client_info)
     method = client_info[:req].method
     path = client_info[:req].path
     endpoint = client_info[:req].endpoint

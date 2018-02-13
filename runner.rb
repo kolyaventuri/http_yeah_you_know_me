@@ -1,6 +1,8 @@
 require './lib/runner'
 require './lib/dictionary/complete_me'
 
+require 'pry'
+
 dictionary = CompleteMe.new
 words = File.read('/usr/share/dict/words')
 dictionary.populate(words)
@@ -10,8 +12,12 @@ router = runner.router
 hello_times = 0
 request_count = 0
 
-router.get '*' do
+router.get '*' do |req, res|
   request_count += 1
+end
+
+router.post '*' do |req, res|
+
 end
 
 router.get '/' do |_req, res|
@@ -40,6 +46,12 @@ router.get '/word_search' do |req, res|
   else
     res.send "#{word} is not a known word"
   end
+end
+
+router.post '/test' do |req, res|
+  print req.body
+  puts ''
+  res.send 'hi'
 end
 
 runner.start

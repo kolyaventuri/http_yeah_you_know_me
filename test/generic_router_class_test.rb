@@ -3,6 +3,7 @@ require_relative 'test_helper.rb'
 require './lib/routers/generic_router.rb'
 require './test/fixtures/mock_client'
 require './lib/client/request'
+require './lib/client_parser'
 
 class RouterClassTest < Minitest::Test
   def setup
@@ -36,7 +37,8 @@ class RouterClassTest < Minitest::Test
     end
 
     client = MockClient.new
-    router_result = @router.execute(client)
+    client_info = ClientParser.new(client).data
+    router_result = @router.execute(client_info)
 
     assert_instance_of Request, router_result
     assert_equal '/example', router_result.path
