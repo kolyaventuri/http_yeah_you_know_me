@@ -7,7 +7,7 @@ class MockClientTest < Minitest::Test
     mock = MockClient.new
 
     expected = [
-      'GET / HTTP/1.1',
+      'GET /example HTTP/1.1',
       'Host: localhost:9292',
       'Connection: keep-alive',
       'Cache-Control: no-cache',
@@ -34,9 +34,19 @@ class MockClientTest < Minitest::Test
       'Accept-Language: en-US,en;q=0.9'
     ]
 
-    assert_equal 'GET / HTTP/1.1', mock.gets
+    assert_equal 'GET /example HTTP/1.1', mock.gets
     assert_equal 'Host: localhost:9292', mock.gets
     assert_equal 'Connection: keep-alive', mock.gets
     assert_equal expected, mock.read_out
+  end
+
+  def test_mock_client_does_post
+    mock = MockClient.new :POST
+    assert_equal 'POST /example HTTP/1.1', mock.gets
+  end
+
+  def test_mock_client_takes_query_string
+    mock = MockClient.new :GET, '?foo=bar'
+    assert_equal 'GET /example?foo=bar HTTP/1.1', mock.gets
   end
 end

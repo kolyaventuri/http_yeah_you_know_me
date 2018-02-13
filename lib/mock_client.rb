@@ -3,13 +3,15 @@ class MockClient
   attr_reader :read_out, :output
   attr_accessor :method
 
-  def initialize(method = :GET)
+  def initialize(method = :GET, query_string = '')
     @method = method
-    @read_out = headers
+    @query_string = query_string
+    @read_out = nil
     @output = ''
   end
 
   def gets
+    @read_out = headers if @read_out.nil?
     @read_out.shift
   end
 
@@ -29,7 +31,7 @@ class MockClient
 
   def get_headers
     [
-      'GET /example HTTP/1.1',
+      "GET /example#{@query_string} HTTP/1.1",
       'Host: localhost:9292',
       'Connection: keep-alive',
       'Cache-Control: no-cache',
@@ -44,7 +46,7 @@ class MockClient
 
   def post_headers
     [
-      'POST /example HTTP/1.1',
+      "POST /example#{@query_string} HTTP/1.1",
       'Host: localhost:9292',
       'Connection: keep-alive',
       'Cache-Control: no-cache',
