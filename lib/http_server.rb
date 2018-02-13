@@ -8,6 +8,7 @@ class HTTPServer
   attr_reader :server, :router
 
   def initialize(port = 9292)
+    puts "Staring server on port #{port}"
     @server = TCPServer.new port
     @router = Router.new
   end
@@ -24,6 +25,7 @@ class HTTPServer
   end
 
   def close
+    puts "Server is closing"
     @server.close
   end
 
