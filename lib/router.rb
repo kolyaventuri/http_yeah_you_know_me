@@ -6,12 +6,12 @@ class Router
     @endpoints = {}
   end
 
-  def get(endpoint, handler)
+  def get(endpoint, &handler)
     @endpoints['GET'] = {} if @endpoints['GET'].nil?
     @endpoints['GET'][endpoint] = handler
   end
 
-  def post(endpoint, handler)
+  def post(endpoint, &handler)
     @endpoints['POST'] = {} if @endpoints['POST'].nil?
     @endpoints['POST'][endpoint] = handler
   end

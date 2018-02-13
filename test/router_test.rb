@@ -9,9 +9,9 @@ class RouterTest < Minitest::Test
 
   def test_router_can_take_get_endpoints
     router = Router.new
-    get_route = router.get '/example', (proc do |req, _res|
+    get_route = router.get '/example' do |req, _res|
       req
-    end)
+    end
     assert_instance_of Proc, get_route
 
     assert_equal true, router.get_set?('/example')
@@ -28,9 +28,9 @@ class RouterTest < Minitest::Test
 
   def test_router_can_take_post_endpoints
     router = Router.new
-    post_route = router.post '/example', (proc do |arg|
+    post_route = router.post '/example' do |arg|
       arg
-    end)
+    end
     assert_instance_of Proc, post_route
 
     assert_equal true, router.post_set?('/example')
@@ -47,9 +47,9 @@ class RouterTest < Minitest::Test
 
   def test_router_can_take_get_parameters
     router = Router.new
-    router.get '/example', (proc do |req, _res|
+    router.get '/example' do |req, _res|
       req
-    end)
+    end
 
     client = MockClient.new(:GET, '?foo=bar&bar=foo')
 
