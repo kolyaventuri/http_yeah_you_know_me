@@ -1,10 +1,13 @@
+require_relative '../parameter_parser'
+
 # Defines incoming client request data
 class Request
-  attr_reader :headers, :method, :path, :raw_headers
+  attr_reader :headers, :method, :path, :params, :raw_headers
 
   def initialize(client)
     @client = client
     @headers = {}
+    @params = {}
 
     request_headers = request_lines
     @raw_headers = request_headers
@@ -17,7 +20,18 @@ class Request
     endpoint_data = determine_endpoint @raw_headers[0]
     @method = endpoint_data[:method]
     @path = endpoint_data[:endpoint]
+
     @raw_headers[0] = "#{@method} #{@path} HTTP/1.1"
+
+    parameters = parse_parameters @path
+    @path = parameters[:path]
+
+    @params = parameters[:parameters] unless parameters[:parameters].nil?
+  end
+
+  def parse_parameters(path)
+    parser = ParameterParser.new
+    parser.parse path
   end
 
   def request_lines

@@ -58,7 +58,7 @@ class RouterTest < Minitest::Test
     expected = { 'foo' => 'bar', 'bar' => 'foo' }
 
     assert_instance_of Request, resulting_request
-    assert_equal '/example', resulting_request.path
+    assert_equal '/example?foo=bar&bar=foo', resulting_request.path
     assert_equal expected, resulting_request.params
   end
 end
