@@ -19,4 +19,14 @@ class ParameterParserTest < Minitest::Test
     assert_equal path, parameters[:path]
     assert_nil parameters[:parameters]
   end
+
+  def test_does_return_hash_of_one_parameters
+    path = '/example?foo=bar'
+    parser = ParameterParser.new
+
+    parameters = parser.parse path
+    expected = { 'foo' => 'bar' }
+
+    assert_equal expected, parameters[:parameters]
+  end
 end
