@@ -1,6 +1,6 @@
 # Parses endpoint parameters
 class ParameterParser
-  def initialize
+  def parse(path)
 
   end
 end
