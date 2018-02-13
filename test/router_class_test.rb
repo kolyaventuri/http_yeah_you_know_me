@@ -1,6 +1,8 @@
 require_relative 'test_helper.rb'
 
 require './lib/routers/_router.rb'
+require './lib/mock_client'
+require './lib/client/request'
 
 class RouterClassTest < Minitest::Test
   def setup
@@ -27,5 +29,16 @@ class RouterClassTest < Minitest::Test
     assert_instance_of Proc, route
 
     assert_equal true, @router.set?('/example')
+  end
+
+  def test_can_execute_route
+    @router.set '/example', (proc do |req, _res|
+      req
+    end)
+    client = MockClient.new
+    router_result = @router.execute(client)
+
+    assert_instance_of Request, router_result
+    assert_equal '/example', router_result.path
   end
 end
