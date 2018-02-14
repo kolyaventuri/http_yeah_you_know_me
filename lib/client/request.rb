@@ -15,14 +15,8 @@ class Request
     @headers = {}
     @params = {}
 
-    request_content = get_request_content
+    request_content
 
-    @raw_headers = request_content[:headers]
-    request_content[:headers].each do |header|
-      split_header = header.split(':')
-      name = split_header.shift
-      @headers[name] = split_header.join(':').strip
-    end
     endpoint_data = determine_endpoint @raw_headers[0]
     @method = endpoint_data[:method]
     @path = endpoint_data[:endpoint]
@@ -33,30 +27,34 @@ class Request
     @endpoint = parameters[:path]
 
     @params = parameters[:parameters] unless parameters[:parameters].nil?
-  end
 
-  def get_request_content
-    lines = request_lines
-    headers = read_headers lines
-    body = read_body lines
-    { body: body, headers: headers }
-  end
-
-  def read_headers(lines)
-    headers = []
-    while (line = lines.shift) && !line.chomp.empty?
-      headers.push line
+    @body = {}
+    if @method == :POST
+      @body = request_body
     end
-    lines.shift
-    headers
   end
 
-  def read_body(lines)
-    body = []
-    while (line = lines.shift) && !line.nil?
-      body.push line unless line.chomp.empty?
+  def request_content
+    @raw_headers = request_headers
+    @raw_headers.each do |header|
+      split_header = header.split(':')
+      name = split_header.shift
+      @headers[name] = split_header.join(':').strip
     end
-    body
+  end
+
+  def request_body
+    length = @headers['Content-Length'].to_i
+    body = @client.readpartial length
+    parse_body body
+  end
+
+  def request_headers
+    request_lines = []
+    while (line = @client.gets) && !line.chomp.empty?
+      request_lines << line.chomp
+    end
+    request_lines
   end
 
   def parse_parameters(path)
@@ -67,14 +65,6 @@ class Request
   def parse_body(body)
     parser = BodyParser.new
     parser.parse body
-  end
-
-  def request_lines
-    request_lines = []
-    while (line = @client.gets) && !line.nil?
-      request_lines << line.chomp
-    end
-    request_lines
   end
 
   def determine_endpoint(endpoint)

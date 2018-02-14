@@ -11,11 +11,11 @@ router = runner.router
 hello_times = 0
 request_count = 0
 
-router.get '*' do |req, res|
+router.get '*' do
   request_count += 1
 end
 
-router.post '*' do |req, res|
+router.post '*' do
   request_count += 1
 end
 
