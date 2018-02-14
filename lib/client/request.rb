@@ -63,6 +63,11 @@ class Request
     parser.parse path
   end
 
+  def parse_body(body)
+    parser = BodyParser.new
+    parser.parse body
+  end
+
   def request_lines
     request_lines = []
     while (line = @client.gets) && !line.nil?
