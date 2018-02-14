@@ -14,9 +14,10 @@ class Request
     @headers = {}
     @params = {}
 
-    request_headers = request_lines
-    @raw_headers = request_headers
-    request_headers.each do |header|
+    request_content = get_request_content
+    
+    @raw_headers = request_content[:headers]
+    request_content[:headers].each do |header|
       split_header = header.split(':')
       name = split_header.shift
       @headers[name] = split_header.join(':').strip
@@ -33,6 +34,30 @@ class Request
     @params = parameters[:parameters] unless parameters[:parameters].nil?
   end
 
+  def get_request_content
+    lines = request_lines
+    headers = read_headers lines
+    body = read_body lines
+    { body: body, headers: headers }
+  end
+
+  def read_headers(lines)
+    headers = []
+    while(line = lines.shift) && !line.chomp.empty?
+      headers.push line
+    end
+    lines.shift
+    headers
+  end
+
+  def read_body(lines)
+    body = []
+    while(line = lines.shift) && !line.chomp.empty?
+      body.push line
+    end
+    body
+  end
+
   def parse_parameters(path)
     parser = ParameterParser.new
     parser.parse path
@@ -40,7 +65,7 @@ class Request
 
   def request_lines
     request_lines = []
-    while (line = @client.gets) && !line.chomp.empty?
+    while (line = @client.gets) && !line.nil?
       request_lines << line.chomp
     end
     request_lines
