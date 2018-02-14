@@ -1,4 +1,5 @@
 require_relative '../parameter_parser'
+require_relative '../body_parser'
 
 # Defines incoming client request data
 class Request
