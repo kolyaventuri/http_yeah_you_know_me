@@ -53,4 +53,13 @@ class RequestTest < Minitest::Test
     content_without_headers = [''].concat client.body
     assert_equal client.body, request.read_body(content_without_headers)
   end
+
+  def test_does_parse_request_body
+    client = MockClient.new :POST
+    request = Request.new client
+    content_without_headers = [''].concat client.body
+    body = request.read_body(content_without_headers)
+    expected = { foo: 'bar', bar: 'foo' }
+    assert_equal expected, request.parse_body(body)
+  end
 end

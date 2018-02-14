@@ -43,7 +43,7 @@ class Request
 
   def read_headers(lines)
     headers = []
-    while(line = lines.shift) && !line.chomp.empty?
+    while (line = lines.shift) && !line.chomp.empty?
       headers.push line
     end
     lines.shift
@@ -52,7 +52,7 @@ class Request
 
   def read_body(lines)
     body = []
-    while(line = lines.shift) && !line.nil?
+    while (line = lines.shift) && !line.nil?
       body.push line unless line.chomp.empty?
     end
     body
