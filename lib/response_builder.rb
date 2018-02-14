@@ -21,6 +21,11 @@ class ResponseBuilder
   end
 
   def headers(output)
+    if @headers['Location']
+      new_headers = { status: @headers[:status], 'Location' => @headers['Location'] }
+      @headers = new_headers
+      return headers_array.join("\r\n")
+    end
     set_header('Content-Length', output.length.to_s)
     @headers['Date'] = Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')
     headers_array.join("\r\n")

@@ -11,6 +11,10 @@ router = runner.router
 hello_times = 0
 request_count = 0
 
+game_running = false
+right_guess = 0
+guesses = []
+
 router.get '*' do
   request_count += 1
 end
@@ -47,10 +51,33 @@ router.get '/word_search' do |req, res|
   end
 end
 
-router.post '/test' do |req, res|
-  print req.body
-  puts ''
-  res.send 'hi'
+router.post '/start_game' do |_req, res|
+  game_running = true
+  right_guess = (0..100).to_a.sample
+  res.send 'Good luck!'
+end
+
+router.get '/game' do |_req, res|
+  out = "#{guesses.length} guesses have been taken."
+  unless guesses.last.nil?
+    out += "\n\n"
+    out += "Your most recent guess, #{guesses.last}, was #{check_guess(guesses.last)}"
+  end
+  res.send out
+end
+
+router.post '/game' do |req, res|
+  guess = req.body['guess'].to_i
+  guesses.push guess
+  res.set_header 'Location', '/game'
+  res.status 302
+  res.send ''
+end
+
+def check_guess(guess)
+  return 'too low.' if guess < right_guess
+  return 'too high.' if guess > right_guess
+  'correct!'
 end
 
 runner.start
