@@ -29,4 +29,9 @@ class Response
   def status(code)
     @builder.status code
   end
+
+  def redirect(location, code = 302)
+    @builder.set_header 'Location', location
+    @builder.status code
+  end
 end
