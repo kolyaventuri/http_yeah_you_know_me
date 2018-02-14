@@ -70,6 +70,4 @@ class ResponseBuilderTest < Minitest::Test
 
     assert_equal expected, headers
   end
-
-
 end

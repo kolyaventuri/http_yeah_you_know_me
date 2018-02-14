@@ -54,4 +54,30 @@ class ResponseTest < Minitest::Test
     expected_w_headers += @expected
     assert_equal expected_w_headers, @client.output
   end
+
+  def test_can_set_redirect
+    @response.redirect 'http://google.com'
+    @response.send('1,2,3,4')
+    expected_w_headers = ['HTTP/1.1 302 Found',
+                          "Date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
+                          'Server: ruby',
+                          'Content-Type: text/html; charset=iso-8859-1',
+                          'Content-Length: 382',
+                          "Location: http://google.co\r\n\r\n"].join("\r\n")
+    expected_w_headers += @expected
+    assert_equal expected_w_headers, @client.output
+  end
+
+  def test_can_set_redirect_with_code
+    @response.redirect 'http://google.com', 301
+    @response.send('1,2,3,4')
+    expected_w_headers = ['HTTP/1.1 301 Moved Permanently',
+                          "Date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
+                          'Server: ruby',
+                          'Content-Type: text/html; charset=iso-8859-1',
+                          'Content-Length: 382',
+                          "Location: http://google.co\r\n\r\n"].join("\r\n")
+    expected_w_headers += @expected
+    assert_equal expected_w_headers, @client.output
+  end
 end
