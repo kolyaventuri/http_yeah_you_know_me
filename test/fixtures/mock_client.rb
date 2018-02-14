@@ -58,9 +58,13 @@ class MockClient
     ]
   end
 
+  def body
+    ['foo=bar&bar=foo']
+  end
+
   def content
     data = headers
     data.push ''
-    data.concat ['foo=bar&bar=foo']
+    data.concat body
   end
 end
