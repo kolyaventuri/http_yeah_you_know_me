@@ -1,5 +1,6 @@
 require './lib/runner'
 require './lib/dictionary/complete_me'
+require 'pry'
 
 dictionary = CompleteMe.new
 words = File.read('/usr/share/dict/words')

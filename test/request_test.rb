@@ -40,4 +40,10 @@ class RequestTest < Minitest::Test
   def test_does_return_raw_headers
     assert_equal @client.headers, @request.raw_headers
   end
+
+  def test_does_read_request_headers
+    client = MockClient.new :POST
+    request = Request.new client
+    assert_equal client.headers, request.read_headers(client.content)
+  end
 end

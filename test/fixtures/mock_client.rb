@@ -57,4 +57,10 @@ class MockClient
       'Accept-Language: en-US,en;q=0.9'
     ]
   end
+
+  def content
+    data = headers
+    data.push ''
+    data.concat ['foo=bar&bar=foo']
+  end
 end
