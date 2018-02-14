@@ -63,7 +63,7 @@ class ResponseTest < Minitest::Test
                           'Server: ruby',
                           'Content-Type: text/html; charset=iso-8859-1',
                           'Content-Length: 382',
-                          "Location: http://google.co\r\n\r\n"].join("\r\n")
+                          "Location: http://google.com\r\n\r\n"].join("\r\n")
     expected_w_headers += @expected
     assert_equal expected_w_headers, @client.output
   end
@@ -76,7 +76,7 @@ class ResponseTest < Minitest::Test
                           'Server: ruby',
                           'Content-Type: text/html; charset=iso-8859-1',
                           'Content-Length: 382',
-                          "Location: http://google.co\r\n\r\n"].join("\r\n")
+                          "Location: http://google.com\r\n\r\n"].join("\r\n")
     expected_w_headers += @expected
     assert_equal expected_w_headers, @client.output
   end
