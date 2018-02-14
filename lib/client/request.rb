@@ -15,7 +15,7 @@ class Request
     @params = {}
 
     request_content = get_request_content
-    
+
     @raw_headers = request_content[:headers]
     request_content[:headers].each do |header|
       split_header = header.split(':')
@@ -52,8 +52,8 @@ class Request
 
   def read_body(lines)
     body = []
-    while(line = lines.shift) && !line.chomp.empty?
-      body.push line
+    while(line = lines.shift) && !line.nil?
+      body.push line unless line.chomp.empty?
     end
     body
   end
