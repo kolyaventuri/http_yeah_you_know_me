@@ -11,9 +11,9 @@ class Response
   end
 
   def send(data)
-    body = response_body(data)
+    body = response_body(data) if data
     @client.puts @builder.headers(body)
-    @client.puts body
+    @client.puts body if data
     @client.close
   end
 
@@ -33,5 +33,6 @@ class Response
   def redirect(location, code = 302)
     @builder.set_header 'Location', location
     @builder.status code
+    send nil
   end
 end
