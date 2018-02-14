@@ -8,6 +8,7 @@ class Request
               :path,
               :endpoint,
               :params,
+              :body,
               :raw_headers
 
   def initialize(client)
