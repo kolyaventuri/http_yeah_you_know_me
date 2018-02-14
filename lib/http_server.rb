@@ -15,8 +15,7 @@ class HTTPServer
 
   def start
     loop do
-      break if @server.closed?
-      Thread.new(@server.accept) do |client|
+      return Thread.new(@server.accept) do |client|
         # TODO: Something in here is causing an EBADF error on @server.close
         # Need to look into it
         @router.execute(client)
@@ -25,8 +24,10 @@ class HTTPServer
   end
 
   def close
-    puts "Server is closing"
+    puts 'Server is closing'
+    Threads.list.each(&:sleep)
     @server.close
+    Threads.list.each(&:kill)
   end
 
   def open?
