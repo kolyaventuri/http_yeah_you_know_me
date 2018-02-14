@@ -59,7 +59,7 @@ class RequestTest < Minitest::Test
     request = Request.new client
     content_without_headers = [''].concat client.body
     body = request.read_body(content_without_headers)
-    expected = { foo: 'bar', bar: 'foo' }
+    expected = { 'foo' => 'bar', 'bar' => 'foo' }
     assert_equal expected, request.parse_body(body)
   end
 end
