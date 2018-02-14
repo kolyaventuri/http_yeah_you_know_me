@@ -13,7 +13,7 @@ class BodyParserTest < Minitest::Test
 
   def test_does_parse_request_body
     body = 'foo=bar&bar=foo'
-    expected = { foo: 'bar', bar: 'foo' }
+    expected = { 'foo' => 'bar', 'bar' => 'foo' }
 
     assert_equal expected, @parser.parse(body)
   end
