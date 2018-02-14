@@ -12,7 +12,7 @@ class BodyParserTest < Minitest::Test
   end
 
   def test_does_parse_request_body
-    body = ['foo=bar&bar=foo']
+    body = 'foo=bar&bar=foo'
     expected = { 'foo' => 'bar', 'bar' => 'foo' }
 
     assert_equal expected, @parser.parse(body)
@@ -20,6 +20,6 @@ class BodyParserTest < Minitest::Test
 
   def test_does_parse_blank_body
     expected = {}
-    assert_equal expected, @parser.parse([])
+    assert_equal expected, @parser.parse('')
   end
 end

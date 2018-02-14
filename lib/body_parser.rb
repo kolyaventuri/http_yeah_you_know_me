@@ -3,7 +3,7 @@ require_relative 'parameter_parser'
 class BodyParser
   def parse(body, content_type = 'x-www-form-urlencoded')
     if content_type == 'x-www-form-urlencoded'
-      split_parameters body.join("\n")
+      split_parameters body
     else
       {}
     end
