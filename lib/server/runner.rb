@@ -15,7 +15,7 @@ router.get '*' do |req, res|
 end
 
 router.post '*' do |req, res|
-
+  request_count += 1
 end
 
 router.get '/' do |_req, res|
