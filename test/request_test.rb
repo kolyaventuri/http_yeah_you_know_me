@@ -62,4 +62,12 @@ class RequestTest < Minitest::Test
     expected = { 'foo' => 'bar', 'bar' => 'foo' }
     assert_equal expected, request.parse_body(body)
   end
+
+  def test_does_parse_empty_request_body
+    client = MockClient.new :POST
+    request = Request.new client
+    body = []
+    expected = {}
+    assert_equal expected, request.parse_body(body)
+  end
 end
