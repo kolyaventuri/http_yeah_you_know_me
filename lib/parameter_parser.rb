@@ -3,12 +3,12 @@ class ParameterParser
   def parse(path)
     parts = split_parts path
     parameters = split_parameters parts[:param_string]
-    { path: parts[:path], parameters: parameters }
+    { endpoint: parts[:endpoint], parameters: parameters }
   end
 
   def split_parts(path)
     parts = path.split '?'
-    { path: parts[0], param_string: parts[1] }
+    { endpoint: parts[0], param_string: parts[1] }
   end
 
   def split_parameters(parameters)

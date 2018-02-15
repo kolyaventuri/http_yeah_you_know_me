@@ -16,7 +16,7 @@ class ParameterParserTest < Minitest::Test
     parameters = parser.parse path
 
     assert_instance_of Hash, parameters
-    assert_equal path, parameters[:path]
+    assert_equal path, parameters[:endpoint]
     assert_nil parameters[:parameters]
   end
 
