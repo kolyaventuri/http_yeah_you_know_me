@@ -45,6 +45,9 @@ class Request
 
   def parse_client
     parse_headers
+    endpoint_data = determine_endpoint @raw_headers[0].clone
+    @method = endpoint_data[:method]
+    @path = endpoint_data[:path]
   end
 
   def parse_headers
@@ -93,18 +96,18 @@ class Request
     elsif endpoint.slice(0, 4) == 'POST'
       return post_endpoint_info endpoint
     end
-    { method: nil, endpoint: nil }
+    { method: nil, path: nil }
   end
 
   def get_endpoint_info(endpoint)
     endpoint.slice!(0, 4)
     endpoint.slice!(endpoint.length - 9, endpoint.length - 1)
-    { method: :GET, endpoint: endpoint }
+    { method: :GET, path: endpoint }
   end
 
   def post_endpoint_info(endpoint)
     endpoint.slice!(0, 5)
     endpoint.slice!(endpoint.length - 9, endpoint.length - 1)
-    { method: :POST, endpoint: endpoint }
+    { method: :POST, path: endpoint }
   end
 end
