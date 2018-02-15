@@ -25,6 +25,12 @@ class RouterTest < Minitest::Test
     assert_equal '/example', resulting_request.path
   end
 
+  def test_router_has_default_error_handler
+    router = Router.new
+
+    assert_equal true, router.error?(404)
+  end
+
   def test_router_can_take_post_endpoints
     router = Router.new
     get_route = router.post '/example' do |req, _res|
