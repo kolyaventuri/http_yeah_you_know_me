@@ -14,8 +14,6 @@ class RequestTest < Minitest::Test
   end
 
   def test_does_parse_client
-    @request.parse_client
-
     assert_equal :GET, @request.method
     assert_equal '/example', @request.endpoint
     assert_equal 'keep-alive', @request.headers['Connection']

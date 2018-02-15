@@ -73,10 +73,13 @@ class Request
     headers
   end
 
-  def request_body
+  def read_body
     length = @headers['Content-Length'].to_i
-    body = @client.readpartial length
-    parse_body body
+    @client.readpartial length
+  end
+
+  def request_body
+    parse_body read_body
   end
 
   def read_request_headers(client)
