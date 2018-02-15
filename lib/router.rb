@@ -7,7 +7,12 @@ class Router < GenericRouter
     @routers = {}
     @routers[:GET] = GenericRouter.new :GET
     @routers[:POST] = GenericRouter.new :POST
-    @code_handlers = {}
+    @code_handlers = {
+      404 => (proc do |_req, res|
+        res.status 404
+        res.send 'Not found'
+      end)
+    }
   end
 
   def get(endpoint, &handler)
