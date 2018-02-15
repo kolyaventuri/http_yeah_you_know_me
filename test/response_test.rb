@@ -57,19 +57,15 @@ class ResponseTest < Minitest::Test
 
   def test_can_set_redirect
     @response.redirect 'http://google.com'
-    @response.send('1,2,3,4')
-    expected_w_headers = ['HTTP/1.1 302 Found',
+    expected = ['HTTP/1.1 302 Found',
                           "Location: http://google.com\r\n\r\n"].join("\r\n")
-    expected_w_headers += @expected
-    assert_equal expected_w_headers, @client.output
+    assert_equal expected, @client.output
   end
 
   def test_can_set_redirect_with_code
     @response.redirect 'http://google.com', 301
-    @response.send('1,2,3,4')
-    expected_w_headers = ['HTTP/1.1 301 Moved Permanently',
+    expected = ['HTTP/1.1 301 Moved Permanently',
                           "Location: http://google.com\r\n\r\n"].join("\r\n")
-    expected_w_headers += @expected
-    assert_equal expected_w_headers, @client.output
+    assert_equal expected, @client.output
   end
 end

@@ -7,8 +7,8 @@ class Response
 
   def initialize(client, headers)
     @client = client
-    @headers = {}
     @raw_headers = headers
+    @status = 200
     @builder = ResponseBuilder.new
   end
 
@@ -29,6 +29,7 @@ class Response
   end
 
   def status(code)
+    @status = code
     @builder.status code
   end
 
