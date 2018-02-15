@@ -22,4 +22,9 @@ class BodyParserTest < Minitest::Test
     expected = {}
     assert_equal expected, @parser.parse('')
   end
+
+  def test_does_handle_other_content_types
+    expected = {}
+    assert_equal expected, @parser.parse('', 'application/json')
+  end
 end

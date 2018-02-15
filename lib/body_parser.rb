@@ -1,8 +1,7 @@
-require_relative 'parameter_parser'
 # Parses incoming body object into hash
 class BodyParser
-  def parse(body, content_type = 'x-www-form-urlencoded')
-    if content_type == 'x-www-form-urlencoded'
+  def parse(body, content_type = 'application/x-www-form-urlencoded')
+    if content_type == 'application/x-www-form-urlencoded'
       split_parameters body
     else
       {}

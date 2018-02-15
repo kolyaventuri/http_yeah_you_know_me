@@ -26,21 +26,6 @@ class Request
 
     parse_client
 
-    # endpoint_data = determine_endpoint @raw_headers[0]
-    # @method = endpoint_data[:method]
-    # @path = endpoint_data[:endpoint]
-    #
-    # @raw_headers[0] = "#{@method} #{@path} HTTP/1.1"
-    #
-    # parameters = parse_parameters @path
-    # @endpoint = parameters[:path]
-    #
-    # @params = parameters[:parameters] unless parameters[:parameters].nil?
-    #
-    # @body = {}
-    # if @method == :POST
-    #   @body = request_body
-    # end
   end
 
   def parse_client
@@ -79,7 +64,7 @@ class Request
   end
 
   def request_body
-    parse_body read_body
+    parse_body read_body, @headers['Content-Type']
   end
 
   def read_request_headers(client)
@@ -95,9 +80,9 @@ class Request
     parser.parse path
   end
 
-  def parse_body(body)
+  def parse_body(body, content_type = 'application/x-www-form-urlencoded')
     parser = BodyParser.new
-    parser.parse body
+    parser.parse body, content_type
   end
 
   def determine_endpoint(endpoint)

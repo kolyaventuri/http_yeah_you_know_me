@@ -84,9 +84,12 @@ class RequestTest < Minitest::Test
 
   def test_does_handle_other_content_types
     client = MockClient.new :POST
-    client.alter_content_type "application/json"
+    client.alter_content_type 'application/json'
     request = Request.new client
+    body = ''
     expected = {}
+
+    assert_equal expected, request.parse_body(body)
   end
 
   def test_can_extract_parameters
