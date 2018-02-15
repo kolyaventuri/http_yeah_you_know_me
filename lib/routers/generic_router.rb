@@ -37,6 +37,7 @@ class GenericRouter
     puts "\e[#{color}m#{method}\e[0m #{path}"
 
     call_catch_all
+    return 404 unless is_set
     call_path endpoint, client_info
   end
 end

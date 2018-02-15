@@ -18,8 +18,7 @@ class RouterTest < Minitest::Test
     assert_equal false, router.set?(:POST, '/example')
 
     client = MockClient.new
-
-    resulting_request = router.execute(client)
+    resulting_request = router.execute client
 
     assert_instance_of Request, resulting_request
     assert_equal '/example', resulting_request.path
@@ -55,7 +54,7 @@ class RouterTest < Minitest::Test
     client = MockClient.new :POST
 
     resulting_request = router.execute(client)
-
+    
     assert_instance_of Request, resulting_request
     assert_equal '/example', resulting_request.path
   end

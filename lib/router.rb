@@ -1,5 +1,6 @@
 require_relative 'client_parser'
 require_relative 'routers/generic_router'
+require_relative 'client/request'
 
 # Defines routers
 class Router < GenericRouter
@@ -34,11 +35,12 @@ class Router < GenericRouter
   def execute(client)
     client_info = client_info client
     router = @routers[client_info[:req].method]
-    if router.nil?
-      return @routers[:ERROR].execute client_info, 405
-    end
-    resulting_code = router.execute client_info
-    unless resulting_code == 200
+    greturn @routers[:ERROR].execute client_info, 405 if router.nil?
+    result = router.execute client_info
+
+    if result.instance_of? Request
+      result
+    else
       @routers[:ERROR].execute client_info, 404
     end
   end
