@@ -31,6 +31,17 @@ class RouterTest < Minitest::Test
     assert_equal true, router.error?(404)
   end
 
+  def test_router_can_set_different_error_handler
+    router = Router.new
+    handler = (proc do |_req, res|
+      res.status 404
+      res.send 'Whoops. That wasn\'t found'
+    end)
+
+    assert_equal handler, router.on(404, handler)
+    assert_equal true, router.error?(404)
+  end
+
   def test_router_can_take_post_endpoints
     router = Router.new
     get_route = router.post '/example' do |req, _res|
