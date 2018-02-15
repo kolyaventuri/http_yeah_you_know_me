@@ -60,7 +60,8 @@ class MockClient
       'DNT: 1',
       'Accept-Encoding: gzip, deflate, br',
       'Accept-Language: en-US,en;q=0.9',
-      "Content-Length: #{body.join("\n").length}"
+      "Content-Length: #{body.join("\n").length}",
+      'Content-Type: application/x-www-form-urlencoded'
     ]
   end
 
