@@ -77,6 +77,17 @@ router.post '/game' do |req, res|
   res.redirect '/game'
 end
 
+router.get '/force_error' do |_req, res|
+  res.status 500
+  begin
+    Math.sqrt(-1)
+  rescue => e
+    out = "An error was encountered. Stack trace below<br /><br />"
+    out += e.backtrace.join("\n")
+    res.send out
+  end
+end
+
 def check_guess(guess)
   return 'too low.' if guess < RIGHT_GUESS
   return 'too high.' if guess > RIGHT_GUESS
