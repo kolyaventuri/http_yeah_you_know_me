@@ -64,7 +64,7 @@ class RequestTest < Minitest::Test
     request = Request.new client
     content_without_headers = [''].concat client.body
 
-    assert_equal client.body, request.read_body
+    assert_equal client.body.join("\n"), request.read_body
   end
 
   def test_does_parse_request_body
