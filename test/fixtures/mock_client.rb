@@ -6,7 +6,7 @@ class MockClient
   def initialize(method = :GET, query_string = '')
     @method = method
     @query_string = query_string
-    @read_out = headers
+    @read_out = content
     @output = ''
   end
 
@@ -69,6 +69,7 @@ class MockClient
 
   def content
     data = headers
+    return data if @method == :GET
     data.push ''
     data.concat body
   end
