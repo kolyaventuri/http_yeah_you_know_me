@@ -52,9 +52,14 @@ router.get '/word_search' do |req, res|
 end
 
 router.post '/start_game' do |_req, res|
-  game_running = true
-  RIGHT_GUESS = (0..100).to_a.sample
-  res.send 'Good luck!'
+  if game_running
+    res.status 403
+    res.send 'Game is already running'
+  else
+    game_running = true
+    RIGHT_GUESS = (0..100).to_a.sample
+    res.send 'Good luck!'
+  end
 end
 
 router.get '/game' do |_req, res|
