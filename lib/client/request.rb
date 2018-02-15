@@ -48,14 +48,11 @@ class Request
   end
 
   def parse_headers
-
+    @raw_headers = read_request_headers @client
+    @headers = request_headers raw_headers
   end
 
-  def raw_headers
-    
-  end
-
-  def request_content(raw_headers)
+  def request_headers(raw_headers)
     headers = {}
     raw_headers.each do |header|
       split_header = header.split(':')
@@ -72,9 +69,9 @@ class Request
     parse_body body
   end
 
-  def request_headers
+  def read_request_headers(client)
     request_lines = []
-    while (line = @client.gets) && !line.chomp.empty?
+    while (line = client.gets) && !line.chomp.empty?
       request_lines << line.chomp
     end
     request_lines
