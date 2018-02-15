@@ -83,4 +83,11 @@ class RequestTest < Minitest::Test
     expected = {}
     assert_equal expected, request.parse_body(body)
   end
+
+  def test_can_extract_parameters
+    client = MockClient.new :GET, '?foo=bar&bar=foo'
+    request = Request.new client
+    expected = { 'foo' => 'bar', 'bar' => 'foo' }
+    assert_equal expected, request.params
+  end
 end

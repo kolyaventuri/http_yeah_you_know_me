@@ -45,9 +45,11 @@ class Request
 
   def parse_client
     parse_headers
+
     endpoint_data = determine_endpoint @raw_headers[0].clone
     @method = endpoint_data[:method]
     @path = endpoint_data[:path]
+    @params = parse_parameters @path
   end
 
   def parse_headers
