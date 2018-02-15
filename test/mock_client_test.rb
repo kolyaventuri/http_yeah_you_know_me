@@ -49,4 +49,9 @@ class MockClientTest < Minitest::Test
     mock = MockClient.new :GET, '?foo=bar'
     assert_equal 'GET /example?foo=bar HTTP/1.1', mock.gets
   end
+
+  def test_does_read_partial
+    mock = MockClient.new
+    assert_equal 'GET /example', mock.readpartial(11)
+  end
 end
