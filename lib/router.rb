@@ -34,6 +34,10 @@ class Router < GenericRouter
     !@code_handlers[code].nil?
   end
 
+  def on(code, &handler)
+    @code_handlers[code] = handler
+  end
+
   def execute(client)
     client_info = client_info client
     router = @routers[client_info[:req].method]

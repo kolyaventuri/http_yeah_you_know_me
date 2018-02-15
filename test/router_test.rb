@@ -38,7 +38,7 @@ class RouterTest < Minitest::Test
       res.send 'Whoops. That wasn\'t found'
     end)
 
-    assert_equal handler, router.on(404, handler)
+    assert_equal handler, router.on(404, &handler)
     assert_equal true, router.error?(404)
   end
 
