@@ -33,10 +33,7 @@ class RouterTest < Minitest::Test
 
   def test_router_can_set_different_error_handler
     router = Router.new
-    handler = (proc do |_req, res|
-      res.status 404
-      res.send 'Whoops. That wasn\'t found'
-    end)
+    handler = proc {}
 
     assert_equal handler, router.on(404, &handler)
     assert_equal true, router.set?(:ERROR, 404)
@@ -85,5 +82,14 @@ class RouterTest < Minitest::Test
 
     assert_instance_of Response, resulting_request
     assert_equal true, client.output.include?('HTTP/1.1 404 Not Found')
+  end
+
+  def test_router_handes_405
+    router = Router.new
+    client = MockClient.new :DELETE
+    resulting_request = router.execute client
+
+    assert_instance_of Response, resulting_request
+    assert_equal true, client.output.include?('HTTP/1.1 405 Method Not Allowed')
   end
 end

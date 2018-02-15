@@ -25,7 +25,10 @@ class MockClient
   def headers
     return get_headers if @method == :GET
     return post_headers if @method == :POST
-    nil
+    
+    temp_headers = get_headers
+    temp_headers[0].sub!('GET', 'DELETE')
+    temp_headers
   end
 
   def readpartial(length)

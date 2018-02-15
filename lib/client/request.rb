@@ -35,9 +35,7 @@ class Request
     @method = endpoint_data[:method]
     @path = endpoint_data[:path]
 
-    parameters = parse_parameters @path
-    @endpoint = parameters[:endpoint]
-    @params = parameters[:parameters]
+    extract_parameters @path
 
     @body = request_body if @method == :POST
   end
@@ -45,6 +43,17 @@ class Request
   def parse_headers
     @raw_headers = read_request_headers @client
     @headers = request_headers raw_headers
+  end
+
+  def extract_parameters(path)
+    if path
+      parameters = parse_parameters path
+      @endpoint = parameters[:endpoint]
+      @params = parameters[:parameters]
+    else
+      @endpoint = nil
+      @params = nil
+    end
   end
 
   def request_headers(raw_headers)
