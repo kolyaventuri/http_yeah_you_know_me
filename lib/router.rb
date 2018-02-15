@@ -35,7 +35,7 @@ class Router < GenericRouter
   def execute(client)
     client_info = client_info client
     router = @routers[client_info[:req].method]
-    greturn @routers[:ERROR].execute client_info, 405 if router.nil?
+    return @routers[:ERROR].execute client_info, 405 if router.nil?
     result = router.execute client_info
 
     if result.instance_of? Request
@@ -54,11 +54,13 @@ class Router < GenericRouter
     on 404 do |req, res|
       res.status 404
       res.send "Error 404: #{req.path} Not Found"
+      res
     end
 
     on 405 do |req, res|
-      res.status 40
+      res.status 405
       res.send "Error 405: Method not supported on #{req.path}"
+      res
     end
   end
 end

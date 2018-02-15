@@ -3,6 +3,7 @@ require 'pry'
 
 require_relative 'fixtures/mock_client'
 require './lib/client/request'
+require './lib/client/response'
 require './lib/router.rb'
 
 class RouterTest < Minitest::Test
@@ -54,11 +55,10 @@ class RouterTest < Minitest::Test
     client = MockClient.new :POST
 
     resulting_request = router.execute(client)
-    
+
     assert_instance_of Request, resulting_request
     assert_equal '/example', resulting_request.path
   end
-
 
   def test_router_can_take_get_parameters
     router = Router.new
@@ -75,5 +75,15 @@ class RouterTest < Minitest::Test
     assert_instance_of Request, resulting_request
     assert_equal '/example?foo=bar&bar=foo', resulting_request.path
     assert_equal expected, resulting_request.params
+  end
+
+  def test_router_handles_404
+    router = Router.new
+
+    client = MockClient.new
+    resulting_request = router.execute client
+
+    assert_instance_of Response, resulting_request
+    assert_equal true, client.output.include?('HTTP/1.1 404 Not Found')
   end
 end

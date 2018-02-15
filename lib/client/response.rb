@@ -3,7 +3,6 @@ require_relative '../response_builder'
 
 # Defines client response data
 class Response
-  attr_reader :headers
 
   def initialize(client, headers)
     @client = client
