@@ -35,8 +35,9 @@ class GenericRouter
 
     puts "\e[#{color}m#{method}\e[0m #{path}"
 
-    throw Exception.new unless is_set
+    return 404 unless is_set
     call_catch_all
     call_path endpoint, client_info
+    200
   end
 end

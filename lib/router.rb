@@ -35,10 +35,12 @@ class Router < GenericRouter
     client_info = client_info client
     router = @routers[client_info[:req].method]
     if router.nil?
-      client_info[:req].endpoint = 405
-      return @routers[:ERROR].execute client_info
+      return @routers[:ERROR].execute client_info, 405
     end
-    router.execute client_info
+    resulting_code = router.execute client_info
+    unless resulting_code == 200
+      @routers[:ERROR].execute client_info, 404
+    end
   end
 
   def client_info(client)
