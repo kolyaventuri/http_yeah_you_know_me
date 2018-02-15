@@ -34,7 +34,10 @@ class Router < GenericRouter
   def execute(client)
     client_info = client_info client
     router = @routers[client_info[:req].method]
-    throw Exception.new if router.nil?
+    if router.nil?
+      client_info[:req].endpoint = 405
+      return @routers[:ERROR].execute client_info
+    end
     router.execute client_info
   end
 
@@ -46,7 +49,12 @@ class Router < GenericRouter
   def define_default_error_handlers
     on 404 do |req, res|
       res.status 404
-      res.send "Error 404: #{req.endpoint} Not Found"
+      res.send "Error 404: #{req.path} Not Found"
+    end
+
+    on 405 do |req, res|
+      res.status 40
+      res.send "Error 405: Method not supported on #{req.path}"
     end
   end
 end
