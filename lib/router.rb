@@ -7,12 +7,9 @@ class Router < GenericRouter
     @routers = {}
     @routers[:GET] = GenericRouter.new :GET
     @routers[:POST] = GenericRouter.new :POST
-    @code_handlers = {
-      404 => (proc do |_req, res|
-        res.status 404
-        res.send 'Not found'
-      end)
-    }
+    @routers[:ERROR] = GenericRouter.new :ERROR
+
+    define_default_error_handlers
   end
 
   def get(endpoint, &handler)
@@ -30,12 +27,8 @@ class Router < GenericRouter
     @routers[method].set? endpoint
   end
 
-  def error?(code)
-    !@code_handlers[code].nil?
-  end
-
   def on(code, &handler)
-    @code_handlers[code] = handler
+    @routers[:ERROR].set code, &handler
   end
 
   def execute(client)
@@ -48,5 +41,12 @@ class Router < GenericRouter
   def client_info(client)
     parser = ClientParser.new client
     parser.data
+  end
+
+  def define_default_error_handlers
+    on 404 do |req, res|
+      res.status 404
+      res.send "Error 404: #{req.endpoint} Not Found"
+    end
   end
 end

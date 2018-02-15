@@ -28,7 +28,7 @@ class RouterTest < Minitest::Test
   def test_router_has_default_error_handler
     router = Router.new
 
-    assert_equal true, router.error?(404)
+    assert_equal true, router.set?(:ERROR, 404)
   end
 
   def test_router_can_set_different_error_handler
@@ -39,7 +39,7 @@ class RouterTest < Minitest::Test
     end)
 
     assert_equal handler, router.on(404, &handler)
-    assert_equal true, router.error?(404)
+    assert_equal true, router.set?(:ERROR, 404)
   end
 
   def test_router_can_take_post_endpoints
