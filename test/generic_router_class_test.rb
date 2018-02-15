@@ -49,6 +49,8 @@ class RouterClassTest < Minitest::Test
     router = GenericRouter.new :ERROR
 
     router.set 404 do |_req, res|
+      res.status 404
+      res.send('')
       res
     end
 
@@ -57,6 +59,7 @@ class RouterClassTest < Minitest::Test
     router_result = router.execute client_info, 404
 
     assert_instance_of Response, router_result
-    assert_equal 'HTTP/1.1 404 Not Found', router_result.headers.keys[0]
+    client_output = client.output.split("\r\n")
+    assert_equal 'HTTP/1.1 404 Not Found', client_output[0]
   end
 end
