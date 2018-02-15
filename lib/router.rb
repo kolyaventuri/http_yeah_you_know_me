@@ -7,6 +7,7 @@ class Router < GenericRouter
     @routers = {}
     @routers[:GET] = GenericRouter.new :GET
     @routers[:POST] = GenericRouter.new :POST
+    @code_handlers = {}
   end
 
   def get(endpoint, &handler)
@@ -22,6 +23,10 @@ class Router < GenericRouter
   def set?(method, endpoint)
     return false if @routers[method].nil?
     @routers[method].set? endpoint
+  end
+
+  def error?(code)
+    !@code_handlers[code].nil?
   end
 
   def execute(client)
