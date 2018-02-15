@@ -12,7 +12,7 @@ hello_times = 0
 request_count = 0
 
 game_running = false
-RIGHT_GUESS = 0
+right_guess = 0
 guesses = []
 
 router.get '*' do
@@ -57,7 +57,8 @@ router.post '/start_game' do |_req, res|
     res.send 'Game is already running'
   else
     game_running = true
-    RIGHT_GUESS = (0..100).to_a.sample
+    guesses = []
+    right_guess = (0..100).to_a.sample
     res.send 'Good luck!'
   end
 end
@@ -66,13 +67,14 @@ router.get '/game' do |_req, res|
   out = "#{guesses.length} guesses have been taken."
   unless guesses.last.nil?
     out += "\n\n"
-    out += "Your most recent guess, #{guesses.last}, was #{check_guess(guesses.last)}"
+    out += "Your most recent guess, #{guesses.last}, was #{check_guess(guesses.last, right_guess)}"
   end
   res.send out
 end
 
 router.post '/game' do |req, res|
   guess = req.body['guess'].to_i
+  game_running = false if guess == right_guess
   guesses.push guess
   res.redirect '/game'
 end
@@ -88,9 +90,9 @@ router.get '/force_error' do |_req, res|
   end
 end
 
-def check_guess(guess)
-  return 'too low.' if guess < RIGHT_GUESS
-  return 'too high.' if guess > RIGHT_GUESS
+def check_guess(guess, right_guess)
+  return 'too low.' if guess < right_guess
+  return 'too high.' if guess > right_guess
   'correct!'
 end
 
