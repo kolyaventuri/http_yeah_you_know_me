@@ -13,35 +13,57 @@ class Request
 
   def initialize(client)
     @client = client
+
+    @raw_headers = []
     @headers = {}
+
+    @method = nil
+    @path = ''
+    @endpoint = ''
+
     @params = {}
-
-    request_content
-
-    endpoint_data = determine_endpoint @raw_headers[0]
-    @method = endpoint_data[:method]
-    @path = endpoint_data[:endpoint]
-
-    @raw_headers[0] = "#{@method} #{@path} HTTP/1.1"
-
-    parameters = parse_parameters @path
-    @endpoint = parameters[:path]
-
-    @params = parameters[:parameters] unless parameters[:parameters].nil?
-
     @body = {}
-    if @method == :POST
-      @body = request_body
-    end
+
+    parse_client
+
+    # endpoint_data = determine_endpoint @raw_headers[0]
+    # @method = endpoint_data[:method]
+    # @path = endpoint_data[:endpoint]
+    #
+    # @raw_headers[0] = "#{@method} #{@path} HTTP/1.1"
+    #
+    # parameters = parse_parameters @path
+    # @endpoint = parameters[:path]
+    #
+    # @params = parameters[:parameters] unless parameters[:parameters].nil?
+    #
+    # @body = {}
+    # if @method == :POST
+    #   @body = request_body
+    # end
   end
 
-  def request_content
-    @raw_headers = request_headers
-    @raw_headers.each do |header|
+  def parse_client
+    parse_headers
+  end
+
+  def parse_headers
+
+  end
+
+  def raw_headers
+    
+  end
+
+  def request_content(raw_headers)
+    headers = {}
+    raw_headers.each do |header|
       split_header = header.split(':')
       name = split_header.shift
-      @headers[name] = split_header.join(':').strip
+      headers[name] = split_header.join(':').strip
     end
+
+    headers
   end
 
   def request_body

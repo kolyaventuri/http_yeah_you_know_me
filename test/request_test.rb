@@ -13,6 +13,18 @@ class RequestTest < Minitest::Test
     assert_instance_of Request, @request
   end
 
+  def test_does_parse_client
+    @request.parse_client
+
+    assert_equal :GET, @request.method
+    assert_equal '/example', @request.endpoint
+    assert_equal 'keep-alive', @request.headers['Connection']
+  end
+
+  def test_does_get_raw_headers
+    assert_equal @client.headers, @request.raw_headers
+  end
+
   def test_does_determine_method_and_path
     expected = { method:  :GET, endpoint: '/example' }
     assert_equal expected, @request.determine_endpoint(@request.raw_headers[0])
