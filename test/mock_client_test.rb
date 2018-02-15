@@ -69,11 +69,14 @@ class MockClientTest < Minitest::Test
       'Accept-Encoding: gzip, deflate, br',
       'Accept-Language: en-US,en;q=0.9',
       'Content-Length: 15',
-      'Content-Type: application/x-www-form-urlencoded'
+      'Content-Type: application/x-www-form-urlencoded',
+      '',
+      'foo=bar&bar=foo'
     ]
 
-    assert_equal expected, mock.alter_content_type('application/json')
-    expected[-1] = 'Content-Type: application/json'
-    assert_equal expected, mock.alter_content_type('application/json')
+    assert_equal expected, mock.read_out
+    expected[-3] = 'Content-Type: application/json'
+    mock.alter_content_type('application/json')
+    assert_equal expected, mock.read_out
   end
 end

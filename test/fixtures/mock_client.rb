@@ -75,4 +75,8 @@ class MockClient
     data.push ''
     data.concat body
   end
+
+  def alter_content_type(type)
+    @read_out[-3] = "Content-Type: #{type}"
+  end
 end
