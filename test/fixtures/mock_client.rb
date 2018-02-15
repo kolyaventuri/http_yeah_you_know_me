@@ -28,6 +28,11 @@ class MockClient
     nil
   end
 
+  def readpartial(length)
+    data = @read_out.join("\n")
+    data[0..length]
+  end
+
   def get_headers
     [
       "GET /example#{@query_string} HTTP/1.1",

@@ -53,6 +53,8 @@ class Request
     parameters = parse_parameters @path
     @endpoint = parameters[:endpoint]
     @params = parameters[:parameters]
+
+    @body = request_body if @method == :POST
   end
 
   def parse_headers
