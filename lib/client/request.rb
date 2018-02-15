@@ -52,6 +52,7 @@ class Request
 
     parameters = parse_parameters @path
     @endpoint = parameters[:endpoint]
+    @params = parameters[:parameters]
   end
 
   def parse_headers
