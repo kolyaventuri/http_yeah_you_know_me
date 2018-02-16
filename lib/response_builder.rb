@@ -1,5 +1,7 @@
 # Creates valid HTTP responses
 class ResponseBuilder
+  attr_reader :headers
+
   def initialize
     @headers = {
       status: 'HTTP/1.1 200 OK',
@@ -20,7 +22,7 @@ class ResponseBuilder
     @headers[name] = value
   end
 
-  def headers(output)
+  def header_string(output)
     if @headers['Location']
       new_headers = { status: @headers[:status], 'Location' => @headers['Location'] }
       @headers = new_headers

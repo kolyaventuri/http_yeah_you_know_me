@@ -7,7 +7,7 @@ class ResponseBuilderTest < Minitest::Test
   def test_does_build_base_headers
     builder = ResponseBuilder.new
     output = [1, 2, 3, 4] # Dummy output, length 4
-    headers = builder.headers output
+    headers = builder.header_string output
 
     expected = ['HTTP/1.1 200 OK',
                 "Date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
@@ -37,14 +37,14 @@ class ResponseBuilderTest < Minitest::Test
                 'Server: ruby',
                 'Content-Type: text/html; charset=iso-8859-1',
                 "Content-Length: #{output.length}\r\n\r\n"].join("\r\n")
-    assert_equal expected, builder.headers(output)
+    assert_equal expected, builder.header_string(output)
   end
 
   def test_can_change_status
     builder = ResponseBuilder.new
     output = [1, 2, 3, 4] # Dummy output, length 4
     builder.status 404
-    headers = builder.headers output
+    headers = builder.header_string output
 
     expected = ['HTTP/1.1 404 Not Found',
                 "Date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
@@ -59,7 +59,7 @@ class ResponseBuilderTest < Minitest::Test
     builder = ResponseBuilder.new
     output = [1, 2, 3, 4] # Dummy output, length 4
     builder.set_header "X-Foo", "Bar"
-    headers = builder.headers output
+    headers = builder.header_string output
 
     expected = ['HTTP/1.1 200 OK',
                 "Date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
