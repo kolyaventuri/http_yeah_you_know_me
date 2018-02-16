@@ -4,8 +4,8 @@ require_relative 'http_server'
 class Runner
   attr_reader :router
 
-  def initialize
-    @server = HTTPServer.new
+  def initialize(port = 9292)
+    @server = HTTPServer.new port
     @router = @server.router
   end
 

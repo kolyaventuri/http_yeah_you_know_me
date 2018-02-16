@@ -5,15 +5,22 @@ require './lib/runner.rb'
 
 class RunnerTest < Minitest::Test
   def test_does_open_router
-    runner = Runner.new
+    runner = Runner.new 8000
     assert_instance_of Router, runner.router
-    runner.stop
+    Thread.new do
+      runner.start
+      sleep 1
+      runner.stop
+    end
   end
 
   def test_does_have_endpoints
-    skip
-    Thread.new load('./lib/server/runner.rb')
-    sleep 0.5
+    Thread.new do
+      fork do
+        system 'ruby runner.rb'
+      end
+    end
+    sleep 4
     conn = Faraday.new url: 'http://localhost:9292'
 
     assert conn.get('/').body
