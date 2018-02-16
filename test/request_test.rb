@@ -98,4 +98,11 @@ class RequestTest < Minitest::Test
     expected = { 'foo' => 'bar', 'bar' => 'foo' }
     assert_equal expected, request.params
   end
+
+  def test_does_return_empty_hash_for_nil_parameters
+    client = MockClient.new :GET
+    request = Request.new client
+    expected = {}
+    assert_equal expected, request.params
+  end
 end

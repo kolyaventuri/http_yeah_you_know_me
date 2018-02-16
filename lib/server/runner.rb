@@ -1,5 +1,7 @@
 require './lib/runner'
 require './lib/dictionary/complete_me'
+
+require 'json'
 require 'pry'
 
 dictionary = CompleteMe.new
@@ -42,6 +44,14 @@ end
 
 router.get '/word_search' do |req, res|
   word = req.params['word']
+  if req.headers['HTTP-Accept'] == 'application/json'
+    suggest_plain_text word, res
+  else
+    suggest_json word, res
+  end
+end
+
+def suggest_plain_text(word, res)
   return res.send 'No word supplied' if word.nil?
   options = dictionary.suggest word
   if options.include? word
@@ -49,6 +59,31 @@ router.get '/word_search' do |req, res|
   else
     res.send "#{word} is not a known word"
   end
+end
+
+def suggest_json(word, res)
+  res.set_header 'Content-Type', 'application/json'
+  result = { word: word, is_word: true }
+  if word.nil?
+    result[:is_word] = false
+    return res.send result.to_json
+  end
+
+  options = dictionary.suggest word
+  check_options word, options, res
+end
+
+def check_options(word, options, res)
+  result = { word: word, is_word: true }
+
+  if options.empty?
+    result[:is_word] = false
+  elsif options.length > 1
+    result[:possible_matches] = options
+    res.send result.to_json
+  end
+
+  res.send options.to_json
 end
 
 router.post '/start_game' do |_req, res|
@@ -84,7 +119,7 @@ router.get '/force_error' do |_req, res|
   begin
     Math.sqrt(-1)
   rescue => e
-    out = "An error was encountered. Stack trace below<br /><br />"
+    out = 'An error was encountered. Stack trace below<br /><br />'
     out += e.backtrace.join("\n")
     res.send out
   end
