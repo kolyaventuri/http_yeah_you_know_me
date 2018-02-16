@@ -17,7 +17,11 @@ class RunnerTest < Minitest::Test
   def test_does_have_endpoints
     Thread.new do
       fork do
-        system 'ruby runner.rb'
+        # :nocov:
+        # We're only ignoring this because simplecov just can't see it.
+        # Test's don't run without it though, so it still technically runs.
+        system 'ruby ./lib/server/runner.rb'
+        # :nocov:
       end
     end
     sleep 4
