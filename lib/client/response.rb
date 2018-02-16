@@ -12,7 +12,11 @@ class Response
   end
 
   def send(data)
-    body = response_body(data) if data
+    body = data
+    unless @builder.headers['Content-Type'].include?('application/')
+      body = response_body(data) if data
+    end
+
     @client.puts @builder.header_string(body)
     @client.puts body if data
     @client.close

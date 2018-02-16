@@ -1,5 +1,6 @@
 require_relative 'test_helper.rb'
 
+require 'json'
 require './lib/client/response'
 require './lib/client/request'
 require_relative 'fixtures/mock_client'
@@ -66,6 +67,22 @@ class ResponseTest < Minitest::Test
     @response.redirect 'http://google.com', 301
     expected = ['HTTP/1.1 301 Moved Permanently',
                           "Location: http://google.com\r\n\r\n"].join("\r\n")
+    assert_equal expected, @client.output
+  end
+
+  def test_can_respond_with_proper_json
+    @response.set_header 'Content-Type', 'application/json'
+    output = { hello: 'test' }
+    json = output.to_json
+    expected = ['HTTP/1.1 200 OK',
+                "Date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
+                'Server: ruby',
+                'Content-Type: application/json',
+                "Content-Length: #{json.length} \r\n\r\n"].join("\r\n")
+    expected += json
+
+    @response.send json
+
     assert_equal expected, @client.output
   end
 end
