@@ -9,9 +9,9 @@ class RunnerTest < Minitest::Test
     assert_instance_of Router, runner.router
     Thread.new do
       runner.start
-      sleep 1
-      runner.stop
+
     end
+    runner.stop
   end
 
   def test_does_have_endpoints
@@ -35,6 +35,20 @@ class RunnerTest < Minitest::Test
     assert_equal true, conn.get('/word_search?word=asdaksjdhas').body.include?('asdaksjdhas is not a known word')
     assert_equal true, conn.get('/word_search?word=toast').body.include?('toast is a known word')
 
-    assert_equal true, conn.get('/shutdown').body.include?('Total Requests: 8')
+    assert_equal true, conn.post('/start_game').body.include?('Good luck!')
+    request = conn.post '/start_game'
+    assert_equal true, request.body.include?('Game is already running')
+    assert_equal 403, request.status
+
+    request = conn.post '/game', guess: 50
+    assert_equal 302, request.status
+
+    assert_equal true, conn.get('/game').body.include?('1 guesses have been taken')
+
+    assert_equal 404, conn.get('/foobar').status
+
+    assert_equal 500, conn.get('/force_error').status
+
+    assert_equal true, conn.get('/shutdown').body.include?('Total Requests: ')
   end
 end

@@ -5,7 +5,6 @@ require './lib/http_server.rb'
 
 class HTTPServerTest < Minitest::Test
   def test_does_create_server
-    skip
     server = HTTPServer.new
     assert_instance_of TCPServer, server.server
     server.router.get '/' do |_req, res|
