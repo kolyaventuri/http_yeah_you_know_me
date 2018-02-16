@@ -49,10 +49,10 @@ class Request
     if path
       parameters = parse_parameters path
       @endpoint = parameters[:endpoint]
-      @params = parameters[:parameters]
+      @params = parameters[:parameters] unless parameters[:parameters].nil?
     else
       @endpoint = nil
-      @params = nil
+      @params = {}
     end
   end
 
