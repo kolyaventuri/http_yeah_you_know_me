@@ -78,7 +78,7 @@ class ResponseTest < Minitest::Test
                 "Date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
                 'Server: ruby',
                 'Content-Type: application/json',
-                "Content-Length: #{json.length} \r\n\r\n"].join("\r\n")
+                "Content-Length: #{json.length}\r\n\r\n"].join("\r\n")
     expected += json
 
     @response.send json
