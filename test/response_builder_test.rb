@@ -70,4 +70,17 @@ class ResponseBuilderTest < Minitest::Test
 
     assert_equal expected, headers
   end
+
+  def test_does_expose_headers
+    builder = ResponseBuilder.new
+    expected = {
+      status: 'HTTP/1.1 200 OK',
+      'Date' => nil,
+      'Server' => 'ruby',
+      'Content-Type' => 'text/html; charset=iso-8859-1',
+      'Content-Length' => nil
+    }
+
+    assert_equal expected, builder.headers
+  end
 end
