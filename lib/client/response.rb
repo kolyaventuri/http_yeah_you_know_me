@@ -13,7 +13,7 @@ class Response
 
   def send(data)
     body = response_body(data) if data
-    @client.puts @builder.headers(body)
+    @client.puts @builder.header_string(body)
     @client.puts body if data
     @client.close
   end
