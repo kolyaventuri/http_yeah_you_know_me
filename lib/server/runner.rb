@@ -1,12 +1,12 @@
 require './lib/runner'
-require './lib/dictionary/complete_me'
+require './lib/DICTIONARY/complete_me'
 
 require 'json'
 require 'pry'
 
-dictionary = CompleteMe.new
+DICTIONARY = CompleteMe.new
 words = File.read('/usr/share/dict/words')
-dictionary.populate(words)
+DICTIONARY.populate(words)
 
 runner = Runner.new
 router = runner.router
@@ -45,15 +45,15 @@ end
 router.get '/word_search' do |req, res|
   word = req.params['word']
   if req.headers['HTTP-Accept'] == 'application/json'
-    suggest_plain_text word, res
-  else
     suggest_json word, res
+  else
+    suggest_plain_text word, res
   end
 end
 
 def suggest_plain_text(word, res)
   return res.send 'No word supplied' if word.nil?
-  options = dictionary.suggest word
+  options = DICTIONARY.suggest word
   if options.include? word
     res.send "#{word} is a known word"
   else
@@ -69,7 +69,7 @@ def suggest_json(word, res)
     return res.send result.to_json
   end
 
-  options = dictionary.suggest word
+  options = DICTIONARY.suggest word
   check_options word, options, res
 end
 
@@ -78,12 +78,13 @@ def check_options(word, options, res)
 
   if options.empty?
     result[:is_word] = false
-  elsif options.length > 1
+  elsif options.length > 1 && !options.include?(word)
+    result[:word] = options.first
     result[:possible_matches] = options
     res.send result.to_json
   end
 
-  res.send options.to_json
+  res.send result.to_json
 end
 
 router.post '/start_game' do |_req, res|
